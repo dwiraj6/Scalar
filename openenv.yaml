@@ -1,0 +1,57 @@
+name: email-triage-env
+version: "1.0.0"
+description: >
+  A real-world email triage environment where an AI agent classifies,
+  prioritizes, replies to, and routes emails across three difficulty levels.
+author: openenv-submission
+tags:
+  - email
+  - triage
+  - nlp
+  - real-world
+  - customer-support
+
+environment:
+  module: environment
+  class: EmailTriageEnv
+  entry_point: server:app
+
+tasks:
+  - id: easy
+    description: Classify a single promotional email by category and priority.
+    difficulty: easy
+    max_steps: 1
+    success_threshold: 0.8
+
+  - id: medium
+    description: >
+      Classify an overdue invoice email, write a professional reply,
+      and provide a one-sentence summary.
+    difficulty: medium
+    max_steps: 1
+    success_threshold: 0.75
+
+  - id: hard
+    description: >
+      Triage a 3-email inbox: classify each email, write replies for urgent ones,
+      forward the billing dispute to billing@company.com, and summarize all.
+    difficulty: hard
+    max_steps: 3
+    success_threshold: 0.7
+
+models:
+  observation: models.Observation
+  action: models.Action
+  reward: models.Reward
+
+endpoints:
+  reset: POST /reset
+  step: POST /step
+  state: GET /state
+  tasks: GET /tasks
+  health: GET /health
+
+runtime:
+  cpu: 2
+  memory_gb: 4
+  port: 7860
