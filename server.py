@@ -83,6 +83,16 @@ def list_tasks():
     }
 
 
+@app.get("/")
+def root():
+    return {
+        "name": "Email Triage OpenEnv",
+        "version": "1.0.0",
+        "status": "running",
+        "endpoints": ["/health", "/reset", "/step", "/state", "/tasks", "/docs"],
+    }
+
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
