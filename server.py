@@ -40,8 +40,9 @@ class StepResponse(BaseModel):
 
 
 @app.post("/reset", response_model=StepResponse)
-def reset(req: ResetRequest):
-    env = _get_env(req.task_id)
+def reset(req: Optional[ResetRequest] = None):
+    task_id = req.task_id if req else "easy"
+    env = _get_env(task_id)
     result: StepResult = env.reset()
     return StepResponse(
         observation=result.observation,
