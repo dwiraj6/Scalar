@@ -24,7 +24,7 @@ from models import Action
 # ------------------------------------------------------------------
 API_BASE_URL = os.environ.get("API_BASE_URL", "https://api.openai.com/v1")
 MODEL_NAME = os.environ.get("MODEL_NAME", "gpt-4o-mini")
-HF_TOKEN = os.environ.get("HF_TOKEN", "")
+HF_TOKEN = os.environ.get("HF_TOKEN")
 
 BENCHMARK = "EmailTriageEnv"
 MAX_STEPS = 3
@@ -187,7 +187,7 @@ async def run_task(client: OpenAI, task_id: str) -> float:
 # ------------------------------------------------------------------
 
 async def main():
-    api_key = HF_TOKEN or os.environ.get("OPENAI_API_KEY", "no-key")
+    api_key = HF_TOKEN or os.environ.get("OPENAI_API_KEY", "")
     client = OpenAI(api_key=api_key, base_url=API_BASE_URL)
 
     all_scores: dict[str, float] = {}
