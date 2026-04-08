@@ -7,7 +7,16 @@ _MAX = 0.99
 
 
 def _clamp(score: float) -> float:
-    return round(max(_MIN, min(_MAX, score)), 4)
+    """Ensure score is strictly between 0 and 1 (exclusive)."""
+    clamped = max(_MIN, min(_MAX, score))
+    # Round to 4 decimals but ensure we stay within bounds
+    rounded = round(clamped, 4)
+    # Final safety check to ensure strictly between 0 and 1
+    if rounded <= 0.0:
+        return _MIN
+    elif rounded >= 1.0:
+        return _MAX
+    return rounded
 
 
 def _keyword_score(text: Optional[str], keywords: list[str]) -> float:
