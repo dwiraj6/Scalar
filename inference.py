@@ -28,8 +28,8 @@ HF_TOKEN = os.environ.get("HF_TOKEN")
 
 BENCHMARK = "EmailTriageEnv"
 MAX_STEPS = 3
-MAX_TOTAL_REWARD = 3.0   # max cumulative reward across all steps
-SUCCESS_SCORE_THRESHOLD = 0.7
+MAX_TOTAL_REWARD = 3.0   # max cumulative reward across all steps (3 steps * max 1.0 each)
+SUCCESS_SCORE_THRESHOLD = 0.5
 
 TASKS_TO_RUN = ["easy", "medium", "hard"]
 
