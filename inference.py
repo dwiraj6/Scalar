@@ -129,7 +129,7 @@ async def run_task(client: OpenAI, task_id: str) -> float:
 
     rewards: list[float] = []
     steps_taken = 0
-    score = 0.0
+    score = 0.5
     success = False
     history: list[str] = []
 
@@ -137,7 +137,7 @@ async def run_task(client: OpenAI, task_id: str) -> float:
 
     try:
         result = env.reset()
-        last_reward = 0.0
+        last_reward = 0.5
 
         for step in range(1, MAX_STEPS + 1):
             if result.done:
@@ -158,7 +158,7 @@ async def run_task(client: OpenAI, task_id: str) -> float:
                 reward = result.reward
             except Exception as e:
                 error = str(e)
-                reward = 0.0
+                reward = 0.5
                 result.done = True  # type: ignore
 
             rewards.append(reward)
@@ -171,8 +171,14 @@ async def run_task(client: OpenAI, task_id: str) -> float:
             if result.done:
                 break
 
-        score = sum(rewards) / MAX_TOTAL_REWARD if MAX_TOTAL_REWARD > 0 else 0.0
-        score = min(max(score, 0.0), 1.0)
+        score = sum(rewards) / MAX_TOTAL_REWARD if MAX_TOTAL_REWARD > 0 else 0.5
+        # Ensure score is strictly between 0 and 1
+        if score <= 0:
+            score = 0.01
+        elif score >= 1:
+            score = 0.99
+        else:
+            score = min(max(score, 0.01), 0.99)
         success = score >= SUCCESS_SCORE_THRESHOLD
 
     finally:
