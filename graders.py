@@ -35,7 +35,7 @@ def grade_easy(action: Action, expected: dict) -> Reward:
 
     return Reward(
         score=total,
-        breakdown={"category": cat_score, "priority": pri_score},
+        breakdown={"category": _clamp(cat_score), "priority": _clamp(pri_score)},
         feedback=(
             "Correct classification."
             if total >= 0.95
@@ -69,10 +69,10 @@ def grade_medium(action: Action, expected: dict) -> Reward:
     return Reward(
         score=total,
         breakdown={
-            "category": cat_score,
-            "priority": pri_score,
-            "reply_quality": round(reply_score, 4),
-            "summary_quality": summary_score,
+            "category": _clamp(cat_score),
+            "priority": _clamp(pri_score),
+            "reply_quality": _clamp(reply_score),
+            "summary_quality": _clamp(summary_score),
         },
         feedback=(
             "Good triage and response."
@@ -109,10 +109,10 @@ def grade_hard_step(action: Action, expected: dict) -> dict:
     return {
         "email_id": expected["email_id"],
         "score": step_score,
-        "category": cat_score,
-        "priority": pri_score,
-        "reply_quality": round(reply_score, 4),
-        "forward": forward_score,
+        "category": _clamp(cat_score),
+        "priority": _clamp(pri_score),
+        "reply_quality": _clamp(reply_score),
+        "forward": _clamp(forward_score),
     }
 
 
