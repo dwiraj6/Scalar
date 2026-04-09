@@ -34,12 +34,12 @@ class EmailTriageEnv:
         self._hard_step_results = []
         self._current_email_index = 0
         obs = self._make_observation()
-        return StepResult(observation=obs, reward=0.0, done=False, info={"task": self._task_id})
+        return StepResult(observation=obs, reward=0.5, done=False, info={"task": self._task_id})
 
     def step(self, action: Action) -> StepResult:
         if self._done:
             obs = self._make_observation()
-            return StepResult(observation=obs, reward=0.0, done=True, info={"warning": "Episode already done."})
+            return StepResult(observation=obs, reward=0.5, done=True, info={"warning": "Episode already done."})
         self._step_number += 1
         if self._task_id == "easy":
             reward_obj = grade_easy(action, self._task["expected"])
